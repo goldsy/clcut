@@ -40,6 +40,9 @@ public class ClothCutter {
 	 * Initiates the optimize operation.
 	 */
 	public void optimize() {
+		ClothRectangle origCloth = new ClothRectangle(initClothWidth, initClothHeight, patterns);
+		// Compile list of cuts.
+		// Compile list of garments.
 		// TODO: (goldsy) Finish me.
 	}
 }
