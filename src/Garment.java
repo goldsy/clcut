@@ -10,4 +10,22 @@ public class Garment {
 	// Location information.
 	private int widthLocation = 0;
 	private int heightLocation = 0;
+    
+	public Garment(int _widthLocation, int _heightLocation, Pattern _sourcePattern) {
+		widthLocation = _widthLocation;
+		heightLocation = _heightLocation;
+		sourcePattern = _sourcePattern;
+	}
+    
+	public int getWidthLocation() {
+		return widthLocation;
+	}
+    
+	public int getHeightLocation() {
+		return heightLocation;
+	}
+    
+	public Pattern getSourcePattern() {
+		return sourcePattern;
+	}
 }

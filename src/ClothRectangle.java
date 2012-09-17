@@ -120,6 +120,30 @@ public class ClothRectangle {
 			rightBottom.getCuts(target);
 		}
 	}
+    
+	
+    /**
+     * Returns list of garments and their locations. This function should only
+     * be called from the top level rectangle as it assumes all other rectangles
+     * are relative to it.
+     * 
+     * @param target
+     */
+	public void getGarments(ArrayList<Garment> target) {
+		getGarments(target, 0, 0);
+	}
+    
+	
+	public void getGarments(ArrayList<Garment> target, int relativeWidthStart, int relativeHeightStart) {
+        // If there is no more cuts, then this is where the garment goes.
+		if (optimalCut == null) {
+			target.add(new Garment(relativeWidthStart, relativeHeightStart, optimalPattern));
+		}
+		else {
+			// Use the cut information to adjust the relative start locations for the
+			// resulting rectangles since they only know size.
+		}
+	}
 	
 	/**
 	 * Determines what pattern fits on the rectangle and is worth the most.

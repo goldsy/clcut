@@ -12,7 +12,7 @@ public class ClothCutter {
 	private int initClothWidth = 0;
 	private int initClothHeight = 0;
 	
-	private Cut optimalCuts = null;
+	private ClothRectangle origCloth = null;
 	
 	/**
 	 * Class ctor.
@@ -40,9 +40,25 @@ public class ClothCutter {
 	 * Initiates the optimize operation.
 	 */
 	public void optimize() {
-		ClothRectangle origCloth = new ClothRectangle(initClothWidth, initClothHeight, patterns);
-		// Compile list of cuts.
+		origCloth = new ClothRectangle(initClothWidth, initClothHeight, patterns);
 		// Compile list of garments.
 		// TODO: (goldsy) Finish me.
+	}
+	
+	
+    /**
+     * Returns the max value/profit for the cloth.
+     * 
+     * @return
+     * 		This method returns the value/profit for the cloth. If no cloth
+     * 		object exists in the cutter, then this method returns zero.
+     */
+	public int value() {
+		if (origCloth != null) {
+            return origCloth.getOptimalValue();
+		}
+		else {
+			return 0;
+		}
 	}
 }
