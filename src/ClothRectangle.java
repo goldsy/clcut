@@ -2,7 +2,7 @@ import java.util.ArrayList ;
 
 
 /**
- * This class stores the dimentions of a piece of cloth cut from the original
+ * This class stores the dimensions of a piece of cloth cut from the original
  * piece of cloth.
  * 
  * @author Jeff
@@ -39,6 +39,9 @@ public class ClothRectangle {
 	 * 		List of patterns to be placed on the rectangle.
 	 */
 	public ClothRectangle(int _width, int _height, ArrayList<Pattern> _patterns) {
+        // DEBUG
+		//System.out.println("Constructing new ClothRectangle of size [" + _width + "," + _height + "]");
+        
 		width = _width;
 		height = _height;
 		patterns = _patterns;
@@ -46,6 +49,9 @@ public class ClothRectangle {
 		// Determine the max zero cut value.
 		optimalValue = getMaxZeroCutValue();
 		
+        // DEBUG
+		//System.out.println("Optimal zero cut value is: " + optimalValue);
+        
 		// Determine if the value is greater by cutting vertically at all
 		// possible points.
 		int cutValue = 0;
@@ -77,8 +83,8 @@ public class ClothRectangle {
 			//*****
 			// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
 			//*****
-			ClothRectangle tempTop = new ClothRectangle(y, height, _patterns);
-			ClothRectangle tempBottom = new ClothRectangle(width - y, height, patterns);
+			ClothRectangle tempTop = new ClothRectangle(width, y, _patterns);
+			ClothRectangle tempBottom = new ClothRectangle(width, height - y, patterns);
 			
 			// If value from this cut is greater than current max value, then
 			// save this cut as optimal.
@@ -142,6 +148,19 @@ public class ClothRectangle {
 		else {
 			// Use the cut information to adjust the relative start locations for the
 			// resulting rectangles since they only know size.
+            if (optimalCut.isVertical()) {
+            	leftTop.getGarments(target, relativeWidthStart, relativeHeightStart);
+            	rightBottom.getGarments(target, 
+            			(relativeWidthStart + optimalCut.getLocation()), 
+            			relativeHeightStart);
+            }
+            else {
+            	// We know there was a cut and if it wasn't vertical, it must
+            	// be horizontal.
+                leftTop.getGarments(target, relativeWidthStart, relativeHeightStart);
+                rightBottom.getGarments(target, relativeWidthStart, 
+                		(relativeHeightStart + optimalCut.getLocation()));
+            }
 		}
 	}
 	

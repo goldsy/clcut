@@ -61,4 +61,31 @@ public class ClothCutter {
 			return 0;
 		}
 	}
+    
+	
+    /**
+     * Gets a list of garments.
+     * 
+     * @return
+     * This method returns an array list of the garments.
+     */
+	public ArrayList<Garment> garments() {
+		ArrayList<Garment> target = new ArrayList<Garment>();
+		
+        // Populate the garment list.
+        // TODO: (goldsy) This shouldn't take long, but we could cache this list for the next call.
+		origCloth.getGarments(target);
+        
+        return target;
+	}
+    
+	
+	public ArrayList<Cut> cuts() {
+		ArrayList<Cut> target = new ArrayList<Cut>();
+		
+		// Populate the cut list.
+		origCloth.getCuts(target);
+        
+		return target;
+	}
 }

@@ -28,4 +28,38 @@ public class Cut {
 		location = _location;
 		length = _length;
 	}
+    
+	
+    /**
+     * This method returns whether the cut is vertical or not.
+     * 
+     * @return
+     *	This method returns true when the cut is vertical and false otherwise.
+     */
+	public boolean isVertical() {
+		return (orientation == VERTICAL_CUT);
+	}
+    
+	
+    /**
+     * This method returns whether the cut is horizontal or not.
+     * 
+     * @return
+     * 	This method returns true when the cut is horizontal and false otherwise.
+     */
+	public boolean isHorizontal() {
+		return (orientation == HORIZONTAL_CUT);
+	}
+    
+	
+    /**
+     * This method gets the location of the cut.
+     * 
+     * @return
+     * 	This method returns the integer location of the cut. The location is 
+     * relative to the orientation.
+     */
+	public int getLocation() {
+		return location;
+	}
 }
