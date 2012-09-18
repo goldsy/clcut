@@ -79,57 +79,61 @@ public class ClothRectangle {
         // DEBUG
 		//System.out.println("Optimal zero cut value is: " + optimalValue);
         
-		// Determine if the value is greater by cutting vertically at all
-		// possible points.
-		int cutValue = 0;
-		
-		for (int x = 1; x < width; ++x) {
-			// DEBUG
-			System.out.println("Vert Cut [w=" + width + " h=" + height + "] Cutting at [" + x + "]");
-            
-			// Cut this rectangle vertically.
-			//*****
-			// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
-			//*****
-			ClothRectangle tempLeft = new ClothRectangle(x, height, _patterns);
-			ClothRectangle tempRight = new ClothRectangle(width - x, height, patterns);
-			
-			// If value from this cut is greater than current max value, then
-			// save this cut as optimal.
-			cutValue = (tempLeft.getOptimalValue() + tempRight.getOptimalValue());
-			
-			if (cutValue > optimalValue) {
-				leftTop = tempLeft;
-				rightBottom = tempRight;
-				optimalValue = cutValue;
-				optimalCut = new Cut(Cut.VERTICAL_CUT, x, height);
-			}
-		}
-		
-		// Determine if the value is greater by cutting horizontally at all
-		// possible points.
-		for (int y = 1; y < height; ++ y) {
-			// DEBUG
-			System.out.println("Horiz Cut [w=" + width + " h=" + height + "] Cutting at [" + y + "]");
-            
-			// Cut this rectangle vertically.
-			//*****
-			// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
-			//*****
-			ClothRectangle tempTop = new ClothRectangle(width, y, _patterns);
-			ClothRectangle tempBottom = new ClothRectangle(width, height - y, patterns);
-			
-			// If value from this cut is greater than current max value, then
-			// save this cut as optimal.
-			cutValue = (tempTop.getOptimalValue() + tempBottom.getOptimalValue());
-			
-			if (cutValue > optimalValue) {
-				leftTop = tempTop;
-				rightBottom = tempBottom;
-				optimalValue = cutValue;
-				optimalCut = new Cut(Cut.HORIZONTAL_CUT, y, width);
-			}
-		}
+        // If the optimal value at this rectangle is 0 then there is no reason
+		// to cut because nothing will fit.
+        if (optimalValue > 0) {
+        	// Determine if the value is greater by cutting vertically at all
+        	// possible points.
+        	int cutValue = 0;
+
+        	for (int x = 1; x < width; ++x) {
+        		// DEBUG
+        		//System.out.println("Vert Cut [w=" + width + " h=" + height + "] Cutting at [" + x + "]");
+
+        		// Cut this rectangle vertically.
+        		//*****
+        		// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
+        		//*****
+        		ClothRectangle tempLeft = new ClothRectangle(x, height, _patterns);
+        		ClothRectangle tempRight = new ClothRectangle(width - x, height, patterns);
+
+        		// If value from this cut is greater than current max value, then
+        		// save this cut as optimal.
+        		cutValue = (tempLeft.getOptimalValue() + tempRight.getOptimalValue());
+
+        		if (cutValue > optimalValue) {
+        			leftTop = tempLeft;
+        			rightBottom = tempRight;
+        			optimalValue = cutValue;
+        			optimalCut = new Cut(Cut.VERTICAL_CUT, x, height);
+        		}
+        	}
+
+        	// Determine if the value is greater by cutting horizontally at all
+        	// possible points.
+        	for (int y = 1; y < height; ++ y) {
+        		// DEBUG
+        		//System.out.println("Horiz Cut [w=" + width + " h=" + height + "] Cutting at [" + y + "]");
+
+        		// Cut this rectangle vertically.
+        		//*****
+        		// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
+        		//*****
+        		ClothRectangle tempTop = new ClothRectangle(width, y, _patterns);
+        		ClothRectangle tempBottom = new ClothRectangle(width, height - y, patterns);
+
+        		// If value from this cut is greater than current max value, then
+        		// save this cut as optimal.
+        		cutValue = (tempTop.getOptimalValue() + tempBottom.getOptimalValue());
+
+        		if (cutValue > optimalValue) {
+        			leftTop = tempTop;
+        			rightBottom = tempBottom;
+        			optimalValue = cutValue;
+        			optimalCut = new Cut(Cut.HORIZONTAL_CUT, y, width);
+        		}
+        	}
+        }
 	}
 	
 	
