@@ -27,6 +27,33 @@ public class ClothRectangle {
 	// This stores the cut information for the rectangle. If null then no cut will be made.
 	private Cut optimalCut = null;
 	
+    
+	/**
+	 * This method will enforce Singleton for each rectangle type.
+     * 
+	 * @param _width
+	 * @param _height
+	 * @param _patterns
+	 * @return
+     * This method returns a reference to the specified ClothRectangle size.
+	 */
+	public static ClothRectangle create(int _width, int _height, ArrayList<Pattern> _patterns) {
+        ClothRectangle temp = null;
+        
+		// Look up target rectangle size.  Return if found.
+		
+		// Otherwise construct new ClothRectangle, insert into data structure
+		// and return reference to it.
+        if (temp == null) {
+        	temp = new ClothRectangle(_width, _height, _patterns);
+            
+        	// Insert into data structure.
+            
+        }
+        
+        return temp;
+	}
+    
 	
 	/**
 	 * Class ctor.
@@ -57,6 +84,9 @@ public class ClothRectangle {
 		int cutValue = 0;
 		
 		for (int x = 1; x < width; ++x) {
+			// DEBUG
+			System.out.println("Vert Cut [w=" + width + " h=" + height + "] Cutting at [" + x + "]");
+            
 			// Cut this rectangle vertically.
 			//*****
 			// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
@@ -79,6 +109,9 @@ public class ClothRectangle {
 		// Determine if the value is greater by cutting horizontally at all
 		// possible points.
 		for (int y = 1; y < height; ++ y) {
+			// DEBUG
+			System.out.println("Horiz Cut [w=" + width + " h=" + height + "] Cutting at [" + y + "]");
+            
 			// Cut this rectangle vertically.
 			//*****
 			// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
