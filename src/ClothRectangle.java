@@ -14,7 +14,8 @@ public class ClothRectangle {
 	private ArrayList<Pattern> patterns = null;
     private int minPatternWidth;
     private int minPatternHeight;
-    private static ArrayList<ClothRectangle> solvedRectangles = new ArrayList<ClothRectangle>();
+    //private static ArrayList<ClothRectangle> solvedRectangles = new ArrayList<ClothRectangle>();
+    private static RectangleBST solvedRectangles = new RectangleBST();
 	
 	private int optimalValue = 0;
 	
@@ -42,16 +43,17 @@ public class ClothRectangle {
 	 */
 	public static ClothRectangle create(int _width, int _height, 
 			ArrayList<Pattern> _patterns, int _minPatternWidth, int _minPatternHeight) {
-        ClothRectangle temp = null;
-        
 		// Look up target rectangle size.  Return if found.
-        findRect:
-		for (ClothRectangle rect : solvedRectangles) {
-			if ((rect.width == _width) && (rect.height == _height)) {
-				temp = rect;
-				break findRect;
-			}
-		}
+        ClothRectangle temp = solvedRectangles.find(getKey(_width, _height));
+        
+        // TODO: (goldsy) Remove after testing.
+        //findRect:
+		//for (ClothRectangle rect : solvedRectangles) {
+			//if ((rect.width == _width) && (rect.height == _height)) {
+				//temp = rect;
+				//break findRect;
+			//}
+		//}
         
 		// Otherwise construct new ClothRectangle, insert into data structure
 		// and return reference to it.
@@ -60,7 +62,8 @@ public class ClothRectangle {
         			_minPatternWidth, _minPatternHeight);
             
         	// Insert into data structure.
-           solvedRectangles.add(temp);
+            solvedRectangles.insert(temp);
+           //solvedRectangles.add(temp);
         }
         
         return temp;
@@ -216,6 +219,35 @@ public class ClothRectangle {
                 		(relativeHeightStart + optimalCut.getLocation()));
             }
 		}
+	}
+	
+    
+    /**
+     * This gets the unique key for this size of rectangle. It is determined
+     * by concatenating the width and height values as strings and then
+     * casting them into ints which will guarantee that the key will never
+     * duplicate for two different rectangle sizes.
+     * @return
+     */
+	public int getKey() {
+		return getKey(width, height);
+	}
+    
+    
+    /**
+     * This version of get key allows getting the key without having constructed
+     * the rectangle which is what we want to avoid if possible.
+     * 
+     * @param _width
+     * Width of the rectangle to look up.
+     * @param _height
+     * Height of the rectangle to look up.
+     * @return
+     * This method returns an int which represents a unique key for the 
+     * specified rectangle size.
+     */
+	public static int getKey(int _width, int _height) {
+		return Integer.parseInt(new Integer(_width).toString() + new Integer(_height).toString());
 	}
 	
 	/**
