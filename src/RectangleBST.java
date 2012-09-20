@@ -19,8 +19,17 @@ public class RectangleBST {
     	Node left = null;
     	Node right = null;
         
+        
+    	/**
+    	 * Class ctor.
+         * 
+    	 * @param _source
+    	 * @param _left
+    	 * @param _right
+    	 */
         public Node(ClothRectangle _source, Node _left, Node _right) {
             data = _source;
+            key = _source.getKey();
             left = _left;
             right = _right;
         }
@@ -139,7 +148,7 @@ public class RectangleBST {
     	if (currNode.getKey() == targetKey) {
     		return currNode.getData();
     	}
-    	else if (currNode.getKey() > targetKey) {
+    	else if (targetKey < currNode.getKey()) {
             // Node must be in the left tree.
     		return find (currNode.getLeft(), targetKey);
     	}
@@ -168,10 +177,10 @@ public class RectangleBST {
     	while (currNode != null) {
     		// Exclude this rectangle if it already exists, although we should
     		// have already checked this before trying to insert.
-    		if (sourceRectangle.getKey() == currNode.getData().getKey()) {
+    		if (sourceRectangle.getKey() == currNode.getKey()) {
     			return;
     		}
-    		else if (sourceRectangle.getKey() < currNode.getData().getKey()) {
+    		else if (sourceRectangle.getKey() < currNode.getKey()) {
     			if (currNode.getLeft() == null) {
     				// Insert into left side.
     				currNode.setLeft(new Node(sourceRectangle, null, null));
