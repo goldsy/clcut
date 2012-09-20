@@ -12,19 +12,15 @@ public class TestClothCutter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	    ArrayList<Pattern> patterns = new ArrayList<Pattern>();
+	    //ArrayList<Pattern> patterns = new ArrayList<Pattern>();
         
-	    // Load the pattern list up.
-        // DEBUG
-        System.out.println("Adding patterns to the list.");
+	    //patterns.add(new Pattern(2,2,1,"A")) ;
+	    //patterns.add(new Pattern(2,6,4,"B")) ;
+	    //patterns.add(new Pattern(4,2,3,"C")) ;
+	    //patterns.add(new Pattern(5,3,5,"D")) ;
         
-	    patterns.add(new Pattern(2,2,1,"A")) ;
-	    patterns.add(new Pattern(2,6,4,"B")) ;
-	    patterns.add(new Pattern(4,2,3,"C")) ;
-	    patterns.add(new Pattern(5,3,5,"D")) ;
-        
-	    int width = 5;
-	    int height = 9;
+	    int width = 22;
+	    int height = 15;
         /*
 	    int width = 22 ;
 	    int height = 15 ;
@@ -35,7 +31,15 @@ public class TestClothCutter {
         // DEBUG
         System.out.println("Creating a new ClothCutter() [width=" + width + " height=" + height + "]");
         
-	    ClothCutter cutter = new ClothCutter(width,height,patterns) ;
+	    //ClothCutter cutter = new ClothCutter(width,height,patterns) ;
+	    ClothCutter cutter = new ClothCutter(width,height) ;
+        
+	    cutter.addPattern(new Pattern(2,2,1,"A")) ;
+	    cutter.addPattern(new Pattern(2,6,4,"B")) ;
+	    cutter.addPattern(new Pattern(4,2,3,"C")) ;
+	    cutter.addPattern(new Pattern(5,3,5,"D")) ;
+	    //cutter.addPattern(new Pattern(5,5,1,"E")) ;
+        
 	    cutter.optimize() ;
 	    System.out.println( cutter.value() ) ;
 	    System.out.println( cutter.garments() ) ;

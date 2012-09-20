@@ -12,6 +12,9 @@ public class ClothRectangle {
 	private int width = 0;
 	private int height = 0;
 	private ArrayList<Pattern> patterns = null;
+    private int minPatternWidth;
+    private int minPatternHeight;
+    private static ArrayList<ClothRectangle> solvedRectangles = new ArrayList<ClothRectangle>();
 	
 	private int optimalValue = 0;
 	
@@ -37,18 +40,27 @@ public class ClothRectangle {
 	 * @return
      * This method returns a reference to the specified ClothRectangle size.
 	 */
-	public static ClothRectangle create(int _width, int _height, ArrayList<Pattern> _patterns) {
+	public static ClothRectangle create(int _width, int _height, 
+			ArrayList<Pattern> _patterns, int _minPatternWidth, int _minPatternHeight) {
         ClothRectangle temp = null;
         
 		// Look up target rectangle size.  Return if found.
-		
+        findRect:
+		for (ClothRectangle rect : solvedRectangles) {
+			if ((rect.width == _width) && (rect.height == _height)) {
+				temp = rect;
+				break findRect;
+			}
+		}
+        
 		// Otherwise construct new ClothRectangle, insert into data structure
 		// and return reference to it.
         if (temp == null) {
-        	temp = new ClothRectangle(_width, _height, _patterns);
+        	temp = new ClothRectangle(_width, _height, _patterns, 
+        			_minPatternWidth, _minPatternHeight);
             
         	// Insert into data structure.
-            
+           solvedRectangles.add(temp);
         }
         
         return temp;
@@ -65,13 +77,16 @@ public class ClothRectangle {
 	 * @param _patterns
 	 * 		List of patterns to be placed on the rectangle.
 	 */
-	public ClothRectangle(int _width, int _height, ArrayList<Pattern> _patterns) {
+	 ClothRectangle(int _width, int _height, ArrayList<Pattern> _patterns,
+			 int _minPatternWidth, int _minPatternHeight) {
         // DEBUG
 		//System.out.println("Constructing new ClothRectangle of size [" + _width + "," + _height + "]");
         
 		width = _width;
 		height = _height;
 		patterns = _patterns;
+        minPatternWidth = _minPatternWidth;
+        minPatternHeight = _minPatternHeight;
 		
 		// Determine the max zero cut value.
 		optimalValue = getMaxZeroCutValue();
@@ -86,7 +101,7 @@ public class ClothRectangle {
         	// possible points.
         	int cutValue = 0;
 
-        	for (int x = 1; x < width; ++x) {
+        	for (int x = minPatternWidth; x <= (width/2); ++x) {
         		// DEBUG
         		//System.out.println("Vert Cut [w=" + width + " h=" + height + "] Cutting at [" + x + "]");
 
@@ -94,8 +109,10 @@ public class ClothRectangle {
         		//*****
         		// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
         		//*****
-        		ClothRectangle tempLeft = new ClothRectangle(x, height, _patterns);
-        		ClothRectangle tempRight = new ClothRectangle(width - x, height, patterns);
+        		//ClothRectangle tempLeft = new ClothRectangle(x, height, _patterns);
+        		//ClothRectangle tempRight = new ClothRectangle(width - x, height, patterns);
+        		ClothRectangle tempLeft = create(x, height, _patterns, minPatternWidth, minPatternHeight);
+        		ClothRectangle tempRight = create(width - x, height, patterns, minPatternWidth, minPatternHeight);
 
         		// If value from this cut is greater than current max value, then
         		// save this cut as optimal.
@@ -111,7 +128,7 @@ public class ClothRectangle {
 
         	// Determine if the value is greater by cutting horizontally at all
         	// possible points.
-        	for (int y = 1; y < height; ++ y) {
+        	for (int y = minPatternHeight; y <= (height/2); ++ y) {
         		// DEBUG
         		//System.out.println("Horiz Cut [w=" + width + " h=" + height + "] Cutting at [" + y + "]");
 
@@ -119,8 +136,8 @@ public class ClothRectangle {
         		//*****
         		// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
         		//*****
-        		ClothRectangle tempTop = new ClothRectangle(width, y, _patterns);
-        		ClothRectangle tempBottom = new ClothRectangle(width, height - y, patterns);
+        		ClothRectangle tempTop = create(width, y, _patterns, minPatternWidth, minPatternHeight);
+        		ClothRectangle tempBottom = create(width, height - y, patterns, minPatternWidth, minPatternHeight);
 
         		// If value from this cut is greater than current max value, then
         		// save this cut as optimal.

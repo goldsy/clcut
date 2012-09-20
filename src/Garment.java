@@ -28,4 +28,9 @@ public class Garment {
 	public Pattern getSourcePattern() {
 		return sourcePattern;
 	}
+    
+	public String toString() {
+		return ("[" + sourcePattern.getName() + ", " + widthLocation + ", "
+				+ heightLocation + "]");
+	}
 }
