@@ -201,7 +201,7 @@ public class RectangleBST {
     			} 
     			else {
                     // Set the current not to the right child and loop again.
-    				currNode = root.getRight();
+    				currNode = currNode.getRight();
     			}
     		}
     	}
