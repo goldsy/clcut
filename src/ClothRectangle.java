@@ -1,4 +1,5 @@
 import java.util.ArrayList ;
+import java.util.HashMap;
 
 
 /**
@@ -14,7 +15,6 @@ public class ClothRectangle {
 	private ArrayList<Pattern> patterns = null;
     private int minPatternWidth;
     private int minPatternHeight;
-    //private static ArrayList<ClothRectangle> solvedRectangles = new ArrayList<ClothRectangle>();
     private static RectangleBST solvedRectangles = new RectangleBST();
 	
 	private int optimalValue = 0;
@@ -46,15 +46,6 @@ public class ClothRectangle {
 		// Look up target rectangle size.  Return if found.
         ClothRectangle temp = solvedRectangles.find(getKey(_width, _height));
         
-        // TODO: (goldsy) Remove after testing.
-        //findRect:
-		//for (ClothRectangle rect : solvedRectangles) {
-			//if ((rect.width == _width) && (rect.height == _height)) {
-				//temp = rect;
-				//break findRect;
-			//}
-		//}
-        
 		// Otherwise construct new ClothRectangle, insert into data structure
 		// and return reference to it.
         if (temp == null) {
@@ -63,7 +54,6 @@ public class ClothRectangle {
             
         	// Insert into data structure.
             solvedRectangles.insert(temp);
-           //solvedRectangles.add(temp);
         }
         
         return temp;
