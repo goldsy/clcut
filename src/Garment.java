@@ -17,12 +17,20 @@ public class Garment {
 		sourcePattern = _sourcePattern;
 	}
     
-	public int getWidthLocation() {
+	public int getXStart() {
 		return widthLocation;
 	}
     
-	public int getHeightLocation() {
+	public int getYStart() {
 		return heightLocation;
+	}
+    
+	public int getWidth() {
+		return sourcePattern.getWidth();
+	}
+    
+	public int getHeight() {
+		return sourcePattern.getHeight();
 	}
     
 	public Pattern getSourcePattern() {

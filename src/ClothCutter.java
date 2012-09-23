@@ -75,16 +75,34 @@ public class ClothCutter {
      * @return
      * This method returns an array list of the garments.
      */
-	public String garments() {
+	public ArrayList<Garment> garments() {
 		ArrayList<Garment> target = new ArrayList<Garment>();
 		
         // Populate the garment list.
         // TODO: (goldsy) This shouldn't take long, but we could cache this list for the next call.
 		origCloth.getGarments(target);
         
+        return target;
+	}
+    
+	
+    /**
+     * Gets a list of garments.
+     * 
+     * @return
+     * This method returns an array list of the garments.
+     */
+	public String formattedGarments() {
+		//ArrayList<Garment> target = new ArrayList<Garment>();
+		
+        // Populate the garment list.
+        // TODO: (goldsy) This shouldn't take long, but we could cache this list for the next call.
+		//origCloth.getGarments(target);
+        
 		String returnVal = "[";
         
-		for(Garment g : target) {
+		//for(Garment g : target) {
+		for(Garment g : garments()) {
 			returnVal += g.toString();
 		}
         
@@ -94,8 +112,8 @@ public class ClothCutter {
 	}
     
 	
-	public ArrayList<Cut> cuts() {
-		ArrayList<Cut> target = new ArrayList<Cut>();
+	public ArrayList<DrawableCut> cuts() {
+		ArrayList<DrawableCut> target = new ArrayList<DrawableCut>();
 		
 		// Populate the cut list.
 		origCloth.getCuts(target);

@@ -36,7 +36,7 @@ public class TestClothCutter {
         
 	    cutter.optimize() ;
 	    System.out.println( cutter.value() ) ;
-	    System.out.println( cutter.garments() ) ;
+	    System.out.println( cutter.formattedGarments() ) ;
 
 	    // Graphical stuff.
         // TODO: (goldsy) TEMPORARILY DISABLE THE GRAPHICAL STUFF.
@@ -48,20 +48,19 @@ public class TestClothCutter {
 	    frame.setVisible(true);
 	    sleep(SYNC);
 	    
-	    for (Cut c : cutter.cuts()) { 
+	    for (DrawableCut c : cutter.cuts()) {
 	    	sleep(SLEEP);
             System.out.println("Displaying cut.");
 	    	cloth.drawCut(c); 
 	    }
 	    
-        /*
 	    sleep(SYNC) ;
 	    
 	    for (Garment g : cutter.garments()) {
 	    	sleep(SLEEP); 
+            System.out.println("Displaying garment.");
 	    	cloth.drawGarment(g); 
 	    }
-        */
 	}
 
     

@@ -53,6 +53,17 @@ public class Cut {
     
 	
     /**
+     * Gets the orientation for this cut.
+     * 
+     * @return
+     * This method returns the orientation of the cut.
+     */
+	public int getOrientation() {
+		return orientation;
+	}
+    
+	
+    /**
      * This method gets the location of the cut.
      * 
      * @return
@@ -63,7 +74,80 @@ public class Cut {
 		return location;
 	}
     
+    
+	/**
+	 * Gets the length of the cut.
+     * 
+	 * @return
+     * This method returns the length of the cut.
+	 */
+	public int getLenth() {
+		return length;
+	}
+    
 	
+    /**
+     * Returns the X Start coordinate for the left or top rectangle when applying
+     * this cut. This provides some consistency in calls since it always returns
+     * the same value.
+     * 
+     * @param sourceXStart
+     * 
+     * @return
+     * Returns the start X coordinate.
+     */
+	public int getLeftTopXStart(int sourceXStart) {
+        // Whether a vertical or horizontal cut the start will always be the
+		// as the original rectangle.
+		return sourceXStart;
+	}
+	
+    
+    /**
+     * 
+     * @param sourceYStart
+     * @return
+     */
+	public int getLeftTopYStart(int sourceYStart) {
+        // Whether a vertical or horizontal cut the start will always be the
+		// as the original rectangle.
+		return sourceYStart;
+	}
+    
+	
+    /**
+     * 
+     * @param sourceXStart
+     * @return
+     */
+	public int getRightBottomXStart(int sourceXStart) {
+		if (isVertical()) {
+			return sourceXStart + location;
+		}
+		else {
+			// Otherwise this is a horizontal cut. X start is same for top and
+			// bottom rectangle and the original rectangle.
+            return sourceXStart;
+		}
+	}
+    
+    
+    /**
+     * 
+     * @param sourceYStart
+     * @return
+     */
+	public int getRightBottomYStart(int sourceYStart) {
+		if (isVertical()) {
+			return sourceYStart;
+		}
+		else {
+			return sourceYStart + location;
+		}
+	}
+	
+	
+	// TODO: (goldsy) REMOVE AFTER TESTING. I THINK THIS STUFF WILL JUST GO AWAY.
     /**
      * Returns the Y location for the cut.  This is the start point.
      * 

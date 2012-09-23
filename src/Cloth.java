@@ -20,7 +20,7 @@ public class Cloth extends JPanel {
     private int height;
     private int pixelsPerUnit;
     private Color backgroundColor = Color.LIGHT_GRAY;
-    private ArrayList<Cut> cuts = new ArrayList<Cut>();
+    private ArrayList<DrawableCut> cuts = new ArrayList<DrawableCut>();
     private ArrayList<Garment> garments = new ArrayList<Garment>();
     
     
@@ -60,13 +60,20 @@ public class Cloth extends JPanel {
 		g.setColor(backgroundColor);
 		g.fillRect(0, 0, getPixelSize(width), getPixelSize(height));
         
-        for (Cut c : cuts) {
+        for (DrawableCut c : cuts) {
         	// Always use black for the cut lines.
         	g.setColor(Color.BLACK);
 
         	// Draw the line relative to the cut information.
         	g.drawLine(getPixelSize(c.getXStart()), getPixelSize(c.getYStart()), 
         			getPixelSize(c.getXEnd()), getPixelSize(c.getYEnd()));
+        }
+        
+        for (Garment garment : garments) {
+        	g.setColor(Color.YELLOW);
+            
+        	g.fillRect(getPixelSize(garment.getXStart()), getPixelSize(garment.getYStart()), 
+        			getPixelSize(garment.getWidth()), getPixelSize(garment.getHeight()));
         }
 	}
     
@@ -77,7 +84,7 @@ public class Cloth extends JPanel {
      * @param c
      * The cut to be drawn.
      */
-	public void drawCut(Cut c) {
+	public void drawCut(DrawableCut c) {
         cuts.add(c);
 
         repaint();
@@ -91,6 +98,8 @@ public class Cloth extends JPanel {
      * The garment to be drawn.
      */
 	public void drawGarment(Garment g) {
+        garments.add(g);
+        
         repaint();
 	}
 }

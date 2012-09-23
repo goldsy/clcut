@@ -163,17 +163,41 @@ public class ClothRectangle {
 	
 	/**
 	 * Gets the cuts for this rectangle and any subsequent cut of this rectangle.
+     * This function will make all drawable cuts relative to the top level
+     * rectangle.
 	 * 
 	 * @param target
 	 * 		The target list to stuff the cuts into.
 	 */
-	public void getCuts(ArrayList<Cut> target) {
+	public void getCuts(ArrayList<DrawableCut> target) {
+		getCuts(target, 0, 0);
+	}
+    
+	
+    /**
+     * Gets the cuts for this rectangle and any subsequent cut of this rectangle.
+     * 
+     * @param target
+     * The target list to store the cut information.
+     * 
+     * @param absoluteXStart
+     * The X start position of rectangle in question relative to the overall cloth
+     * size.
+     * 
+     * @param absoluteYStart
+     * The Y start position of rectangle in question relative to the overall cloth
+     * size.
+     */
+	public void getCuts(ArrayList<DrawableCut> target, int absoluteXStart, int absoluteYStart) {
 		if (optimalCut != null) {
-			target.add(optimalCut);
+			target.add(new DrawableCut(optimalCut, absoluteXStart, absoluteYStart));
 			
 			// Recursively get all of the cuts.
-			leftTop.getCuts(target);
-			rightBottom.getCuts(target);
+            // Adjust the coordinates of the start of the rectangle by the cut.
+			leftTop.getCuts(target, optimalCut.getLeftTopXStart(absoluteXStart),
+					optimalCut.getLeftTopYStart(absoluteYStart));
+			rightBottom.getCuts(target, optimalCut.getRightBottomXStart(absoluteXStart),
+					optimalCut.getRightBottomYStart(absoluteYStart));
 		}
 	}
     
@@ -190,26 +214,26 @@ public class ClothRectangle {
 	}
     
 	
-	public void getGarments(ArrayList<Garment> target, int relativeWidthStart, int relativeHeightStart) {
+	public void getGarments(ArrayList<Garment> target, int absoluteXStart, int absoluteYStart) {
         // If there is no more cuts, then this is where the garment goes.
 		if (optimalCut == null) {
-			target.add(new Garment(relativeWidthStart, relativeHeightStart, optimalPattern));
+			target.add(new Garment(absoluteXStart, absoluteYStart, optimalPattern));
 		}
 		else {
 			// Use the cut information to adjust the relative start locations for the
 			// resulting rectangles since they only know size.
             if (optimalCut.isVertical()) {
-            	leftTop.getGarments(target, relativeWidthStart, relativeHeightStart);
+            	leftTop.getGarments(target, absoluteXStart, absoluteYStart);
             	rightBottom.getGarments(target, 
-            			(relativeWidthStart + optimalCut.getLocation()), 
-            			relativeHeightStart);
+            			(absoluteXStart + optimalCut.getLocation()), 
+            			absoluteYStart);
             }
             else {
             	// We know there was a cut and if it wasn't vertical, it must
             	// be horizontal.
-                leftTop.getGarments(target, relativeWidthStart, relativeHeightStart);
-                rightBottom.getGarments(target, relativeWidthStart, 
-                		(relativeHeightStart + optimalCut.getLocation()));
+                leftTop.getGarments(target, absoluteXStart, absoluteYStart);
+                rightBottom.getGarments(target, absoluteXStart, 
+                		(absoluteYStart + optimalCut.getLocation()));
             }
 		}
 	}
