@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 
@@ -18,7 +20,8 @@ public class Cloth extends JPanel {
     private int height;
     private int pixelsPerUnit;
     private Color backgroundColor = Color.LIGHT_GRAY;
-    private boolean inited = false;
+    private ArrayList<Cut> cuts = new ArrayList<Cut>();
+    private ArrayList<Garment> garments = new ArrayList<Garment>();
     
     
     /**
@@ -57,7 +60,14 @@ public class Cloth extends JPanel {
 		g.setColor(backgroundColor);
 		g.fillRect(0, 0, getPixelSize(width), getPixelSize(height));
         
-		inited = true;
+        for (Cut c : cuts) {
+        	// Always use black for the cut lines.
+        	g.setColor(Color.BLACK);
+
+        	// Draw the line relative to the cut information.
+        	g.drawLine(getPixelSize(c.getXStart()), getPixelSize(c.getYStart()), 
+        			getPixelSize(c.getXEnd()), getPixelSize(c.getYEnd()));
+        }
 	}
     
 	
@@ -68,18 +78,7 @@ public class Cloth extends JPanel {
      * The cut to be drawn.
      */
 	public void drawCut(Cut c) {
-        //if (!inited) {
-        //	init();
-        //}
-        
-        Graphics g = getGraphics();
-
-        // Always use black for the cut lines.
-		g.setColor(Color.BLACK);
-
-        // Draw the line relative to the cut information.
-		g.drawLine(getPixelSize(c.getXStart()), getPixelSize(c.getYStart()), 
-				getPixelSize(c.getXEnd()), getPixelSize(c.getYEnd()));
+        cuts.add(c);
 
         repaint();
 	}
@@ -92,8 +91,6 @@ public class Cloth extends JPanel {
      * The garment to be drawn.
      */
 	public void drawGarment(Garment g) {
-        //if (!inited) {
-        //	init();
-        //}
+        repaint();
 	}
 }
