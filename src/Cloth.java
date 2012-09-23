@@ -29,7 +29,21 @@ public class Cloth extends JPanel {
 		height = _height;
 		pixelsPerUnit = _pixelsPerUnit;
         
-		setPreferredSize(new Dimension(width * pixelsPerUnit, height * pixelsPerUnit));
+		setPreferredSize(new Dimension(getPixelSize(width), getPixelSize(height)));
+	}
+    
+    
+    /**
+     * This method takes a unit size and converts it to the pixel size.
+     * 
+     * @param unitSize
+     * Unit size to convert.
+     * 
+     * @return
+     * This method returns a size in pixels.
+     */
+	public int getPixelSize(int unitSize) {
+		return (unitSize * pixelsPerUnit);
 	}
     
 	
@@ -39,10 +53,9 @@ public class Cloth extends JPanel {
      * Precondition:
      * The graphics context must exist before calling this method.
      */
-	public void paintComponent() {
-        Graphics g = getGraphics();
+	public void paintComponent(Graphics g) {
 		g.setColor(backgroundColor);
-		g.fillRect(0, 0, width, height);
+		g.fillRect(0, 0, getPixelSize(width), getPixelSize(height));
         
 		inited = true;
 	}
@@ -65,8 +78,8 @@ public class Cloth extends JPanel {
 		g.setColor(Color.BLACK);
 
         // Draw the line relative to the cut information.
-		g.drawLine(c.getXStart() * pixelsPerUnit, c.getYStart() * pixelsPerUnit, 
-				c.getXEnd() * pixelsPerUnit, c.getYEnd() * pixelsPerUnit);
+		g.drawLine(getPixelSize(c.getXStart()), getPixelSize(c.getYStart()), 
+				getPixelSize(c.getXEnd()), getPixelSize(c.getYEnd()));
 
         repaint();
 	}
