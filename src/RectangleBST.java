@@ -142,6 +142,8 @@ public class RectangleBST {
      */
     private ClothRectangle find(Node currNode, int targetKey) {
     	if (currNode == null) {
+    		// DEBUG
+    		//System.out.println("Node [" + targetKey + "] not found.");
     		return null;
     	}
         
@@ -165,9 +167,13 @@ public class RectangleBST {
      * @param sourceRectangle
      * The source rectangle to insert into the tree.
      */
+    public static int size = 0;
     public void insert(ClothRectangle sourceRectangle) {
         // If the tree is empty insert at the root.
     	if (root == null) {
+    		// DEBUG
+            ++size;
+    		System.out.println("Size [" + size + "]");
     		root = new Node(sourceRectangle, null, null);
     		return;
     	}
@@ -183,6 +189,9 @@ public class RectangleBST {
     		else if (sourceRectangle.getKey() < currNode.getKey()) {
     			if (currNode.getLeft() == null) {
     				// Insert into left side.
+    				// DEBUG
+    				++size;
+    				System.out.println("Size [" + size + "][" + sourceRectangle.getKey() + "] Left");
     				currNode.setLeft(new Node(sourceRectangle, null, null));
                     
     				return;
@@ -195,6 +204,9 @@ public class RectangleBST {
     		else {
     			if (currNode.getRight() == null) {
     				// Insert into right side.
+    				// DEBUG
+    				++size;
+    				System.out.println("Size [" + size + "][" + sourceRectangle.getKey() + "] Right");
     				currNode.setRight(new Node(sourceRectangle, null, null));
                     
     				return;

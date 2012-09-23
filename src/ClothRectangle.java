@@ -15,7 +15,8 @@ public class ClothRectangle {
 	private ArrayList<Pattern> patterns = null;
     private int minPatternWidth;
     private int minPatternHeight;
-    private static RectangleBST solvedRectangles = new RectangleBST();
+    //private static RectangleBST solvedRectangles = new RectangleBST();
+    private static HashMap<Integer, ClothRectangle> solvedRectangles = new HashMap<Integer, ClothRectangle>();
 	
 	private int optimalValue = 0;
 	
@@ -44,7 +45,8 @@ public class ClothRectangle {
 	public static ClothRectangle create(int _width, int _height, 
 			ArrayList<Pattern> _patterns, int _minPatternWidth, int _minPatternHeight) {
 		// Look up target rectangle size.  Return if found.
-        ClothRectangle temp = solvedRectangles.find(getKey(_width, _height));
+        //ClothRectangle temp = solvedRectangles.find(getKey(_width, _height));
+        ClothRectangle temp = solvedRectangles.get(getKey(_width, _height));
         
 		// Otherwise construct new ClothRectangle, insert into data structure
 		// and return reference to it.
@@ -53,7 +55,8 @@ public class ClothRectangle {
         			_minPatternWidth, _minPatternHeight);
             
         	// Insert into data structure.
-            solvedRectangles.insert(temp);
+            //solvedRectangles.insert(temp);
+            solvedRectangles.put(temp.getKey(), temp);
         }
         
         return temp;
@@ -219,7 +222,7 @@ public class ClothRectangle {
      * duplicate for two different rectangle sizes.
      * @return
      */
-	public int getKey() {
+	public Integer getKey() {
 		return getKey(width, height);
 	}
     
@@ -236,7 +239,7 @@ public class ClothRectangle {
      * This method returns an int which represents a unique key for the 
      * specified rectangle size.
      */
-	public static int getKey(int _width, int _height) {
+	public static Integer getKey(int _width, int _height) {
 		return Integer.parseInt(new Integer(_width).toString() + new Integer(_height).toString());
 	}
 	
