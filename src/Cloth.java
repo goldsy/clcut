@@ -72,8 +72,17 @@ public class Cloth extends JPanel {
         for (Garment garment : garments) {
         	g.setColor(Color.YELLOW);
             
-        	g.fillRect(getPixelSize(garment.getXStart()), getPixelSize(garment.getYStart()), 
-        			getPixelSize(garment.getWidth()), getPixelSize(garment.getHeight()));
+            // Make rectangle a pixel smaller and the size a pixel smaller
+        	// so that the rectangle doesn't overlay the cut lines.
+        	g.fillRect(getPixelSize(garment.getXStart()) + 1, getPixelSize(garment.getYStart()) + 1, 
+        			getPixelSize(garment.getWidth()) - 1, getPixelSize(garment.getHeight()) - 1);
+            
+        	g.setColor(Color.BLACK);
+            
+            // Shift drawing the text by a few pixels so it doesn't run off the
+        	// edge of the screen.
+            g.drawString(garment.getSourcePattern().getName(), 
+            		getPixelSize(garment.getXStart()) + 5, getPixelSize(garment.getYStart()) + 15);
         }
 	}
     

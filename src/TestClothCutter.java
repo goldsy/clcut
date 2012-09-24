@@ -12,8 +12,8 @@ public class TestClothCutter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	    int width = 22;
-	    int height = 15;
+	    int width = 44;
+	    int height = 30;
 	    int pixels = 30;
         /*
 	    int width = 22 ;
