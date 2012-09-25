@@ -61,7 +61,7 @@ public class ClothCutter {
      */
 	public int value() {
 		if (origCloth != null) {
-            return origCloth.getOptimalValue();
+            return origCloth.getOptimalProfit();
 		}
 		else {
 			return 0;

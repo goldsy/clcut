@@ -12,13 +12,13 @@ import java.util.HashMap;
 public class ClothRectangle {
 	private int width = 0;
 	private int height = 0;
+    
 	private ArrayList<Pattern> patterns = null;
     private int minPatternWidth;
     private int minPatternHeight;
-    //private static RectangleBST solvedRectangles = new RectangleBST();
     private static HashMap<Integer, ClothRectangle> solvedRectangles = new HashMap<Integer, ClothRectangle>();
 	
-	private int optimalValue = 0;
+	private int optimalProfit = 0;
 	
 	// Either a pattern which will be placed on the rectangle.
 	// Or a reference to the left/top or right/bottom pieces which it was cut 
@@ -45,7 +45,6 @@ public class ClothRectangle {
 	public static ClothRectangle create(int _width, int _height, 
 			ArrayList<Pattern> _patterns, int _minPatternWidth, int _minPatternHeight) {
 		// Look up target rectangle size.  Return if found.
-        //ClothRectangle temp = solvedRectangles.find(getKey(_width, _height));
         ClothRectangle temp = solvedRectangles.get(getKey(_width, _height));
         
 		// Otherwise construct new ClothRectangle, insert into data structure
@@ -55,7 +54,6 @@ public class ClothRectangle {
         			_minPatternWidth, _minPatternHeight);
             
         	// Insert into data structure.
-            //solvedRectangles.insert(temp);
             solvedRectangles.put(temp.getKey(), temp);
         }
         
@@ -84,66 +82,58 @@ public class ClothRectangle {
         minPatternWidth = _minPatternWidth;
         minPatternHeight = _minPatternHeight;
 		
-		// Determine the max zero cut value.
-		optimalValue = getMaxZeroCutValue();
+		// Determine the max zero cut profit.
+		calcMaxZeroCutProfit();
 		
         // DEBUG
 		//System.out.println("Optimal zero cut value is: " + optimalValue);
         
         // If the optimal value at this rectangle is 0 then there is no reason
 		// to cut because nothing will fit.
-        if (optimalValue > 0) {
+        if (optimalProfit > 0) {
         	// Determine if the value is greater by cutting vertically at all
         	// possible points.
-        	int cutValue = 0;
+        	int cutProfit = 0;
 
-        	for (int x = minPatternWidth; x <= (width/2); ++x) {
+        	for (int cutAtX = minPatternWidth; cutAtX <= (width/2); ++cutAtX) {
         		// DEBUG
         		//System.out.println("Vert Cut [w=" + width + " h=" + height + "] Cutting at [" + x + "]");
 
         		// Cut this rectangle vertically.
-        		//*****
-        		// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
-        		//*****
-        		//ClothRectangle tempLeft = new ClothRectangle(x, height, _patterns);
-        		//ClothRectangle tempRight = new ClothRectangle(width - x, height, patterns);
-        		ClothRectangle tempLeft = create(x, height, _patterns, minPatternWidth, minPatternHeight);
-        		ClothRectangle tempRight = create(width - x, height, patterns, minPatternWidth, minPatternHeight);
+        		ClothRectangle tempLeft = create(cutAtX, height, _patterns, minPatternWidth, minPatternHeight);
+        		ClothRectangle tempRight = create(width - cutAtX, height, patterns, minPatternWidth, minPatternHeight);
 
         		// If value from this cut is greater than current max value, then
         		// save this cut as optimal.
-        		cutValue = (tempLeft.getOptimalValue() + tempRight.getOptimalValue());
+        		cutProfit = (tempLeft.getOptimalProfit() + tempRight.getOptimalProfit());
 
-        		if (cutValue > optimalValue) {
+        		if (cutProfit > optimalProfit) {
+        			optimalProfit = cutProfit;
         			leftTop = tempLeft;
         			rightBottom = tempRight;
-        			optimalValue = cutValue;
-        			optimalCut = new Cut(Cut.VERTICAL_CUT, x, height);
+        			optimalCut = new Cut(Cut.VERTICAL_CUT, cutAtX, height);
         		}
         	}
 
         	// Determine if the value is greater by cutting horizontally at all
         	// possible points.
-        	for (int y = minPatternHeight; y <= (height/2); ++ y) {
+        	for (int cutAtY = minPatternHeight; cutAtY <= (height/2); ++cutAtY) {
         		// DEBUG
         		//System.out.println("Horiz Cut [w=" + width + " h=" + height + "] Cutting at [" + y + "]");
 
-        		// Cut this rectangle vertically.
-        		//*****
-        		// TODO: (goldsy) Lookup to see if resulting rectangle has already been computed.
-        		//*****
-        		ClothRectangle tempTop = create(width, y, _patterns, minPatternWidth, minPatternHeight);
-        		ClothRectangle tempBottom = create(width, height - y, patterns, minPatternWidth, minPatternHeight);
+        		// Cut this rectangle horizontally.
+        		ClothRectangle tempTop = create(width, cutAtY, _patterns, minPatternWidth, minPatternHeight);
+        		ClothRectangle tempBottom = create(width, height - cutAtY, patterns, minPatternWidth, minPatternHeight);
 
         		// If value from this cut is greater than current max value, then
         		// save this cut as optimal.
-        		cutValue = (tempTop.getOptimalValue() + tempBottom.getOptimalValue());
+        		cutProfit = (tempTop.getOptimalProfit() + tempBottom.getOptimalProfit());
 
-        		if (cutValue > optimalValue) {
+        		if (cutProfit > optimalProfit) {
+        			optimalProfit = cutProfit;
         			leftTop = tempTop;
         			rightBottom = tempBottom;
-        			optimalValue = cutValue;
-        			optimalCut = new Cut(Cut.HORIZONTAL_CUT, y, width);
+        			optimalCut = new Cut(Cut.HORIZONTAL_CUT, cutAtY, width);
         		}
         	}
         }
@@ -156,8 +146,8 @@ public class ClothRectangle {
 	 * @return
 	 * 		Returns the optimal maximum value for the rectangle.
 	 */
-	public int getOptimalValue() {
-		return optimalValue;
+	public int getOptimalProfit() {
+		return optimalProfit;
 	}
 	
 	
@@ -273,14 +263,14 @@ public class ClothRectangle {
 	 * @return
 	 * 		This method returns the
 	 */
-	private int getMaxZeroCutValue() {
+	private void calcMaxZeroCutProfit() {
 		for (Pattern p : patterns) {
-			if (p.getWidth() <= width && p.getHeight() <= height && p.getValue() > optimalValue) {
-				optimalValue = p.getValue();
+			if ((p.getWidth() <= width) && (p.getHeight() <= height) 
+					&& (p.getValue() > optimalProfit)) 
+			{
+				optimalProfit = p.getValue();
 				optimalPattern = p;
 			}
 		}
-
-		return optimalValue;
 	}
 }
