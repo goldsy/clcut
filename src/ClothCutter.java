@@ -45,10 +45,11 @@ public class ClothCutter {
 	 * Initiates the optimize operation.
 	 */
 	public void optimize() {
-		origCloth = new ClothRectangle(initClothWidth, initClothHeight, 
-				patterns, minPatternWidth, minPatternHeight);
-		// Compile list of garments.
-		// TODO: (goldsy) Finish me.
+        // First push the pattern list to the Cloth Rectangle class.
+        ClothRectangle.setPatterns(patterns);
+        
+		//origCloth = new ClothRectangle(initClothWidth, initClothHeight);
+        origCloth = ClothRectangle.create(initClothWidth, initClothHeight);
 	}
 	
 	
@@ -112,6 +113,10 @@ public class ClothCutter {
 	}
     
 	
+    /**
+     * 
+     * @return
+     */
 	public ArrayList<DrawableCut> cuts() {
 		ArrayList<DrawableCut> target = new ArrayList<DrawableCut>();
 		
@@ -143,7 +148,8 @@ public class ClothCutter {
 			if ((p.getWidth() >= i.getWidth()) 
 					&& (p.getHeight() >= i.getHeight()) 
 					&& (p.getValue() <= i.getValue())) {
-                
+                // TODO: (goldsy) SHOULD PROBABLY CHECK FOR INVALID PATTERNS HERE.
+                // DEBUG
                 System.out.println("Omitting rectangle [" + p.getWidth() + ", "
                 		+ p.getHeight() + ", " + p.getValue() + "]");
                 patternSignificant = false;

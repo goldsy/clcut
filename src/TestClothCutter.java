@@ -5,20 +5,21 @@ import java.util.Date ;
 
 public class TestClothCutter {
 	  public static int SYNC = 500 ;
-	  public static int SLEEP = 200 ;
+	  public static int SLEEP = 100 ;
 
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	    int width = 31;
-	    int height = 22;
+	    int width = 41;
+	    int height = 30;
+	    //int width = 42;
+	    //int height = 28;
 	    int pixels = 30;
         /*
 	    int width = 22 ;
 	    int height = 15 ;
-	    int pixels = 30 ;
         */
 
 	    // Algorithmic stuff.
@@ -34,12 +35,11 @@ public class TestClothCutter {
 	    cutter.addPattern(new Pattern(5,3,5,"D")) ;
 	    //cutter.addPattern(new Pattern(5,5,1,"E")) ;
         
-	    cutter.optimize() ;
-	    System.out.println( cutter.value() ) ;
-	    System.out.println( cutter.formattedGarments() ) ;
+	    cutter.optimize();
+	    System.out.println( cutter.value() );
+	    System.out.println( cutter.formattedGarments() );
 
 	    // Graphical stuff.
-        // TODO: (goldsy) TEMPORARILY DISABLE THE GRAPHICAL STUFF.
 	    Cloth cloth = new Cloth(width,height,pixels) ;
 	    JFrame frame = new JFrame("A Bolt of Fabulously Expensive Silk") ;
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,7 +50,9 @@ public class TestClothCutter {
 	    
 	    for (DrawableCut c : cutter.cuts()) {
 	    	sleep(SLEEP);
-            System.out.println("Displaying cut.");
+            
+	    	// DEBUG
+            //System.out.println("Displaying cut.");
 	    	cloth.drawCut(c); 
 	    }
 	    
@@ -58,7 +60,9 @@ public class TestClothCutter {
 	    
 	    for (Garment g : cutter.garments()) {
 	    	sleep(SLEEP); 
-            System.out.println("Displaying garment.");
+            
+	    	// DEBUG
+            //System.out.println("Displaying garment.");
 	    	cloth.drawGarment(g); 
 	    }
 	}

@@ -2,6 +2,7 @@ import java.util.ArrayList ;
 import java.util.HashMap;
 
 
+
 /**
  * This class stores the dimensions of a piece of cloth cut from the original
  * piece of cloth.
@@ -12,11 +13,6 @@ import java.util.HashMap;
 public class ClothRectangle {
 	private int width = 0;
 	private int height = 0;
-    
-	private ArrayList<Pattern> patterns = null;
-    private int minPatternWidth;
-    private int minPatternHeight;
-    private static HashMap<Integer, ClothRectangle> solvedRectangles = new HashMap<Integer, ClothRectangle>();
 	
 	private int optimalProfit = 0;
 	
@@ -29,8 +25,16 @@ public class ClothRectangle {
 	private ClothRectangle leftTop = null;
 	private ClothRectangle rightBottom = null;
 	
-	// This stores the cut information for the rectangle. If null then no cut will be made.
+	// This stores the cut information for the rectangle. If null then no cut 
+	// will be made.
 	private Cut optimalCut = null;
+    
+    // Static members of the class.
+	private static ArrayList<Pattern> patterns = new ArrayList<Pattern>();
+    private static int minPatternWidth = 0;
+    private static int minPatternHeight = 0;
+    private static HashMap<Integer, ClothRectangle> solvedRectangles = 
+    		new HashMap<Integer, ClothRectangle>();
 	
     
 	/**
@@ -42,16 +46,14 @@ public class ClothRectangle {
 	 * @return
      * This method returns a reference to the specified ClothRectangle size.
 	 */
-	public static ClothRectangle create(int _width, int _height, 
-			ArrayList<Pattern> _patterns, int _minPatternWidth, int _minPatternHeight) {
+	public static ClothRectangle create(int _width, int _height) {
 		// Look up target rectangle size.  Return if found.
         ClothRectangle temp = solvedRectangles.get(getKey(_width, _height));
         
 		// Otherwise construct new ClothRectangle, insert into data structure
 		// and return reference to it.
         if (temp == null) {
-        	temp = new ClothRectangle(_width, _height, _patterns, 
-        			_minPatternWidth, _minPatternHeight);
+        	temp = new ClothRectangle(_width, _height);
             
         	// Insert into data structure.
             solvedRectangles.put(temp.getKey(), temp);
@@ -68,19 +70,23 @@ public class ClothRectangle {
 	 * 		Width of the rectangle.
 	 * @param _height
 	 * 		Height of the rectangle.
-	 * @param _patterns
-	 * 		List of patterns to be placed on the rectangle.
 	 */
-	 ClothRectangle(int _width, int _height, ArrayList<Pattern> _patterns,
-			 int _minPatternWidth, int _minPatternHeight) {
+	 private ClothRectangle(int _width, int _height) {
         // DEBUG
 		//System.out.println("Constructing new ClothRectangle of size [" + _width + "," + _height + "]");
-        
+
 		width = _width;
 		height = _height;
-		patterns = _patterns;
-        minPatternWidth = _minPatternWidth;
-        minPatternHeight = _minPatternHeight;
+		
+		// Just check that the min width and height have been inited, otherwise
+		// just use worst case of size 1.
+        if (minPatternWidth == 0) {
+        	minPatternWidth = 1;
+        }
+        
+        if (minPatternHeight == 0) {
+        	minPatternHeight = 1;
+        }
 		
 		// Determine the max zero cut profit.
 		calcMaxZeroCutProfit();
@@ -100,8 +106,8 @@ public class ClothRectangle {
         		//System.out.println("Vert Cut [w=" + width + " h=" + height + "] Cutting at [" + x + "]");
 
         		// Cut this rectangle vertically.
-        		ClothRectangle tempLeft = create(cutAtX, height, _patterns, minPatternWidth, minPatternHeight);
-        		ClothRectangle tempRight = create(width - cutAtX, height, patterns, minPatternWidth, minPatternHeight);
+        		ClothRectangle tempLeft = create(cutAtX, height);
+        		ClothRectangle tempRight = create((width - cutAtX), height);
 
         		// If value from this cut is greater than current max value, then
         		// save this cut as optimal.
@@ -122,8 +128,8 @@ public class ClothRectangle {
         		//System.out.println("Horiz Cut [w=" + width + " h=" + height + "] Cutting at [" + y + "]");
 
         		// Cut this rectangle horizontally.
-        		ClothRectangle tempTop = create(width, cutAtY, _patterns, minPatternWidth, minPatternHeight);
-        		ClothRectangle tempBottom = create(width, height - cutAtY, patterns, minPatternWidth, minPatternHeight);
+        		ClothRectangle tempTop = create(width, cutAtY);
+        		ClothRectangle tempBottom = create(width, (height - cutAtY));
 
         		// If value from this cut is greater than current max value, then
         		// save this cut as optimal.
@@ -204,6 +210,12 @@ public class ClothRectangle {
 	}
     
 	
+    /**
+     * 
+     * @param target
+     * @param absoluteXStart
+     * @param absoluteYStart
+     */
 	public void getGarments(ArrayList<Garment> target, int absoluteXStart, int absoluteYStart) {
         // If there is no more cuts, then this is where the garment goes.
 		if (optimalCut == null) {
@@ -257,6 +269,7 @@ public class ClothRectangle {
 		return Integer.parseInt(new Integer(_width).toString() + new Integer(_height).toString());
 	}
 	
+    
 	/**
 	 * Determines what pattern fits on the rectangle and is worth the most.
 	 * 
@@ -270,6 +283,30 @@ public class ClothRectangle {
 			{
 				optimalProfit = p.getValue();
 				optimalPattern = p;
+			}
+		}
+	}
+    
+	
+    /**
+     * This adds the pattern to the array list and determines the min width
+     * and height which is used to set the starting point of cuts.
+     * 
+     * @param source
+     * Source array list of patterns.
+     */
+	public static void setPatterns(ArrayList<Pattern> source) {
+		patterns = source;
+        
+		for (Pattern p : patterns) {
+            // Zero means that the min width has not been initialized.
+			if ((minPatternWidth == 0) || p.getWidth() < minPatternWidth) {
+				minPatternWidth = p.getWidth();
+			}
+            
+            // Zero means that the min height has not been initialized.
+			if ((minPatternHeight == 0) || p.getHeight() < minPatternHeight) {
+				minPatternHeight = p.getHeight();
 			}
 		}
 	}
