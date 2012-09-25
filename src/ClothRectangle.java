@@ -34,7 +34,7 @@ public class ClothRectangle {
     private static int minPatternWidth = 0;
     private static int minPatternHeight = 0;
     private static HashMap<Integer, ClothRectangle> solvedRectangles = 
-    		new HashMap<Integer, ClothRectangle>();
+    		new HashMap<Integer, ClothRectangle>(2000);
 	
     
 	/**
@@ -57,6 +57,7 @@ public class ClothRectangle {
             
         	// Insert into data structure.
             solvedRectangles.put(temp.getKey(), temp);
+            System.out.println("Map Size: " + solvedRectangles.size());
         }
         
         return temp;

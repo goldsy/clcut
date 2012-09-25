@@ -32,10 +32,6 @@ public class ClothCutter {
 	public ClothCutter(int _width, int _height) {
 		patterns = new ArrayList<Pattern>();
 		
-		// TODO:
-		// Optimize the list of patterns. Remove larger in W and H but less
-		// value than another, and equal in W and H but less in value.
-		
 		initClothWidth = _width;
 		initClothHeight = _height;
 	}
