@@ -12,8 +12,8 @@ public class ClothCutter {
 	private int initClothWidth = 0;
 	private int initClothHeight = 0;
     
-	private int minPatternWidth = -1;
-	private int minPatternHeight = -1;
+	//private int minPatternWidth = -1;
+	//private int minPatternHeight = -1;
 	
 	private ClothRectangle origCloth = null;
 	
@@ -163,6 +163,7 @@ public class ClothCutter {
             // If the minimum pattern width has not been initialized or if
         	// the current pattern is smaller than the previous smallest
         	// pattern in this orientation then store the new minimum.
+            /*
         	if (minPatternWidth > p.getWidth() || minPatternWidth == -1) {
         		minPatternWidth = p.getWidth();
                 // DEBUG
@@ -174,6 +175,7 @@ public class ClothCutter {
                 // DEBUG
                 System.out.println("Min Pattern Height is: " + minPatternHeight);
         	}
+            */
         }
 	}
 }
