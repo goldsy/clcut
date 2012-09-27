@@ -5,18 +5,19 @@ import java.util.Date ;
 
 public class TestClothCutter {
 	  public static int SYNC = 500 ;
-	  public static int SLEEP = 100 ;
+	  public static int SLEEP = 350 ;
 
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	    int width = 42;
-	    int height = 30;
+	    int width = 60;
+	    //int height = 30;
+        int height = 35;
 	    //int width = 42;
 	    //int height = 28;
-	    int pixels = 30;
+	    int pixels = 20;
         /*
 	    int width = 22 ;
 	    int height = 15 ;
@@ -47,8 +48,11 @@ public class TestClothCutter {
 	    frame.pack();
 	    frame.setVisible(true);
 	    sleep(SYNC);
+        //ArrayList<DrawableCut> bestCuts = cutter.cuts();
+        //ArrayList<Garment> bestGarments = cutter.garments();
 	    
 	    for (DrawableCut c : cutter.cuts()) {
+	    //for (DrawableCut c : bestCuts) {
 	    	sleep(SLEEP);
             
 	    	// DEBUG

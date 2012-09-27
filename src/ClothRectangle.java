@@ -33,8 +33,8 @@ public class ClothRectangle {
 	private static ArrayList<Pattern> patterns = new ArrayList<Pattern>();
     private static int minPatternWidth = 0;
     private static int minPatternHeight = 0;
-    private static HashMap<Integer, ClothRectangle> solvedRectangles = 
-    		new HashMap<Integer, ClothRectangle>(2000);
+    private static HashMap<String, ClothRectangle> solvedRectangles = 
+    		new HashMap<String, ClothRectangle>(10000);
 	
     
 	/**
@@ -57,7 +57,7 @@ public class ClothRectangle {
             
         	// Insert into data structure.
             solvedRectangles.put(temp.getKey(), temp);
-            System.out.println("Map Size: " + solvedRectangles.size());
+            //System.out.println("Map Size: " + solvedRectangles.size());
         }
         
         return temp;
@@ -249,7 +249,7 @@ public class ClothRectangle {
      * duplicate for two different rectangle sizes.
      * @return
      */
-	public Integer getKey() {
+	public String getKey() {
 		return getKey(width, height);
 	}
     
@@ -266,8 +266,9 @@ public class ClothRectangle {
      * This method returns an int which represents a unique key for the 
      * specified rectangle size.
      */
-	public static Integer getKey(int _width, int _height) {
-		return Integer.parseInt(new Integer(_width).toString() + new Integer(_height).toString());
+	public static String getKey(int _width, int _height) {
+		//return Integer.parseInt(new Integer(_width).toString()+ "," + new Integer(_height).toString());
+		return (_width + "," + _height);
 	}
 	
     
