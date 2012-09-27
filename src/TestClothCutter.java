@@ -5,16 +5,17 @@ import java.util.Date ;
 
 public class TestClothCutter {
 	  public static int SYNC = 500 ;
-	  public static int SLEEP = 350 ;
+	  //public static int SLEEP = 350 ;
+	  public static int SLEEP = 100 ;
 
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	    int width = 60;
+	    int width = 42;
 	    //int height = 30;
-        int height = 35;
+        int height = 30;
 	    //int width = 42;
 	    //int height = 28;
 	    int pixels = 20;

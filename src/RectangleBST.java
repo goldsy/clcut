@@ -27,12 +27,14 @@ public class RectangleBST {
     	 * @param _left
     	 * @param _right
     	 */
+        /*
         public Node(ClothRectangle _source, Node _left, Node _right) {
             data = _source;
             key = _source.getKey();
             left = _left;
             right = _right;
         }
+        */
         
         
         /**
@@ -168,6 +170,7 @@ public class RectangleBST {
      * The source rectangle to insert into the tree.
      */
     public static int size = 0;
+    /*
     public void insert(ClothRectangle sourceRectangle) {
         // If the tree is empty insert at the root.
     	if (root == null) {
@@ -217,5 +220,5 @@ public class RectangleBST {
     			}
     		}
     	}
-    }
+    }*/
 }

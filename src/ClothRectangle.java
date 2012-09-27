@@ -1,5 +1,6 @@
 import java.util.ArrayList ;
 import java.util.HashMap;
+import java.util.Vector ;
 
 
 
@@ -206,7 +207,7 @@ public class ClothRectangle {
      * 
      * @param target
      */
-	public void getGarments(ArrayList<Garment> target) {
+	public void getGarments(Vector<Garment> target) {
 		getGarments(target, 0, 0);
 	}
     
@@ -217,7 +218,7 @@ public class ClothRectangle {
      * @param absoluteXStart
      * @param absoluteYStart
      */
-	public void getGarments(ArrayList<Garment> target, int absoluteXStart, int absoluteYStart) {
+	public void getGarments(Vector<Garment> target, int absoluteXStart, int absoluteYStart) {
         // If there is no more cuts, then this is where the garment goes.
 		if (optimalCut == null) {
 			target.add(new Garment(absoluteXStart, absoluteYStart, optimalPattern));

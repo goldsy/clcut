@@ -1,4 +1,5 @@
 import java.util.ArrayList ;
+import java.util.Vector ;
 
 
 /**
@@ -72,8 +73,8 @@ public class ClothCutter {
      * @return
      * This method returns an array list of the garments.
      */
-	public ArrayList<Garment> garments() {
-		ArrayList<Garment> target = new ArrayList<Garment>();
+	public Vector<Garment> garments() {
+		Vector<Garment> target = new Vector<Garment>();
 		
         // Populate the garment list.
         // TODO: (goldsy) This shouldn't take long, but we could cache this list for the next call.
