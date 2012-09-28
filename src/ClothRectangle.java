@@ -39,7 +39,7 @@ public class ClothRectangle {
 	/**
 	 * This method will enforce Singleton for each rectangle type.  If the
 	 * rectangle of this size already exists, then it will be returns
-	 * otherwise a new cloth rectangle is contstructed.
+	 * otherwise a new cloth rectangle is constructed.
      * 
 	 * @param _width
      * Width of the rectangle to create.
