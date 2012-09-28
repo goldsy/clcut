@@ -32,8 +32,23 @@ public class ClothCutter {
 	public ClothCutter(int _width, int _height) {
 		patterns = new ArrayList<Pattern>();
 		
-		initClothWidth = _width;
-		initClothHeight = _height;
+        // Make sure that the width is valid.
+        if (_width < 1) {
+            System.out.println("Width is invalid using cloth width of 1.");
+        	initClothWidth = 1;
+        }
+        else {
+        	initClothWidth = _width;
+        }
+        
+        // Make sure that the height is valid.
+        if (_height < 1) {
+            System.out.println("Height is invalid using cloth height of 1.");
+            initClothHeight = 1;
+        }
+        else {
+        	initClothHeight = _height;
+        }
 	}
 
 	
@@ -130,29 +145,49 @@ public class ClothCutter {
      * The pattern to be added to the list of patterns to consider.
      */
 	public void addPattern(Pattern p) {
-        // This boolean indicates if the pattern to be added is significant.
+        // Check for invalid pattern size.
+        if (p.getWidth() < 1 || p.getHeight() < 1) {
+            // DEBUG
+        	//System.out.println("Invalid pattern size. Excluding pattern. ["
+            //    		+ p.getWidth() + "," + p.getHeight() 
+            //    		+ "," + p.getValue() + "," + p.getName() + "]");
+            return;
+        }
+        
+        // Check if the pattern to be added is significant.
 		// That is whether there is possibility that the pattern will be used.
 		// Any pattern larger in both dimensions with a lower value will never
 		// be used.  Don't waste time checking it.
-        boolean patternSignificant = true;
-        
-        patternCheck:
 		for (Pattern i : patterns) {
+            // Check for duplicate names.
+            if (p.getName() == i.getName()) {
+            	// This name has already been used.
+                // DEBUG
+            	//System.out.println("Name is duplicate. Excluding pattern [" 
+                //		+ p.getWidth() + "," + p.getHeight() 
+                //		+ "," + p.getValue() + "," + p.getName() + "]");
+                
+            	// It won't be used; bail.
+                return;
+            }
+            
+            // Check if pattern will be used.
 			if ((p.getWidth() >= i.getWidth()) 
 					&& (p.getHeight() >= i.getHeight()) 
 					&& (p.getValue() <= i.getValue())) {
-                // TODO: (goldsy) SHOULD PROBABLY CHECK FOR INVALID PATTERNS HERE.
                 // DEBUG
-                System.out.println("Omitting rectangle [" + p.getWidth() + ", "
-                		+ p.getHeight() + ", " + p.getValue() + "]");
-                patternSignificant = false;
-				break patternCheck;
+                //System.out.println("Excluding pattern because existing" 
+                //        + " pattern with equal or smaller size has equal"
+                //        + " or greater value. Excluded pattern ["
+                //		+ p.getWidth() + "," + p.getHeight() 
+                //		+ "," + p.getValue() + "," + p.getName() + "]");
+                
+            	// It won't be used; bail.
+                return;
 			}
 		}
         
-        if (patternSignificant) {
-            // If this pattern has the potential to be placed then store it.
-        	patterns.add(p);
-        }
+		// If this pattern has the potential to be placed then store it.
+		patterns.add(p);
 	}
 }

@@ -1,6 +1,7 @@
 /**
  * This class stores cut information including what cut comes after this one.
- * @author Jeff
+ * 
+ * @author Jeff Goldsworthy
  *
  */
 public class Cut {
@@ -150,71 +151,6 @@ public class Cut {
 		}
 		else {
 			return sourceYStart + location;
-		}
-	}
-	
-	
-	// TODO: (goldsy) REMOVE AFTER TESTING. I THINK THIS STUFF WILL JUST GO AWAY.
-    /**
-     * Returns the Y location for the cut.  This is the start point.
-     * 
-     * @return
-     * This method returns the Y location of the start of the line.
-     */
-	public int getXStart() {
-		if (isVertical()) {
-			return location;
-		}
-		else {
-			return 0;
-		}
-	}
-    
-	
-    /**
-     * Returns the Y location for the cut.  This is the start point.
-     * 
-     * @return
-     * This method returns the Y location of the start of the line.
-     */
-	public int getYStart() {
-		if (isHorizontal()) {
-			return location;
-		}
-		else {
-			return 0;
-		}
-	}
-    
-	
-    /**
-     * Returns the Y location for the cut.  This is the start point.
-     * 
-     * @return
-     * This method returns the Y location of the start of the line.
-     */
-	public int getXEnd() {
-		if (isVertical()) {
-			return location;
-		}
-		else {
-			return getXStart() + length;
-		}
-	}
-    
-	
-    /**
-     * Returns the Y location for the cut.  This is the start point.
-     * 
-     * @return
-     * This method returns the Y location of the start of the line.
-     */
-	public int getYEnd() {
-		if (isHorizontal()) {
-			return location;
-		}
-		else {
-			return getYStart() + length;
 		}
 	}
 }

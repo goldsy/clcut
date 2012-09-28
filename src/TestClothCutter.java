@@ -1,19 +1,19 @@
-import javax.swing.* ;
-import java.util.Date ;
+import javax.swing.*;
+import java.util.Date;
 
 
 /**
  * This class is the test driver class for the cloth cutting project.
  * 
- * @author Jeff
+ * @author Jeff Goldsworthy
  *
  */
 public class TestClothCutter {
-	  public static int SYNC = 500 ;
+	  public static int SYNC = 500;
       
-	  // Setting the sleep time less than this caused some issues on my MacBook
-	  // but the issue was not seen while running on my PC.
-	  public static int SLEEP = 350 ;
+	  // Setting the sleep time less than this caused some draw issues on my 
+	  // MacBook but the issue was not seen while running on my PC.
+	  public static int SLEEP = 350;
 
 
 	/**
@@ -22,12 +22,18 @@ public class TestClothCutter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+        // *********************************************************************
+        // *********************************************************************
         // This is the width and height of the cloth to be cut.
+        // Both dimensions must be greater than zero.
+        // *********************************************************************
+        // *********************************************************************
 	    int width = 42;
         int height = 30;
 
         // Scaling factor that determines how many pixels to draw each unit
-        // of size as on the screen.
+        // of size as on the screen. Must be >= 10. Anything less is just too
+        // small.
 	    int pixels = 20;
 
         // DEBUG
@@ -35,13 +41,24 @@ public class TestClothCutter {
         
 	    ClothCutter cutter = new ClothCutter(width,height) ;
         
+        // *********************************************************************
+        // *********************************************************************
         // These are the patterns to be used to place on the cloth.  Additional
 	    // patterns may be added here.
+	    // The format is (width, height, value, name).
+	    // Width, height and value must be greater than zero and names must 
+	    // be unique.
+        // *********************************************************************
+        // *********************************************************************
 	    cutter.addPattern(new Pattern(2,2,1,"A"));
 	    cutter.addPattern(new Pattern(2,6,4,"B"));
 	    cutter.addPattern(new Pattern(4,2,3,"C"));
 	    cutter.addPattern(new Pattern(5,3,5,"D"));
+        
 	    //cutter.addPattern(new Pattern(5,5,1,"E"));
+	    //cutter.addPattern(new Pattern(5,5,10,"D"));
+	    //cutter.addPattern(new Pattern(0,0,1,"F"));
+        
         
 	    cutter.optimize();
 	    System.out.println( cutter.value() );

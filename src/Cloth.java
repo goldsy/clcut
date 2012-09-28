@@ -31,7 +31,17 @@ public class Cloth extends JPanel {
         // Store the width, height, and scaling factor.
 		width = _width;
 		height = _height;
-		pixelsPerUnit = _pixelsPerUnit;
+        
+        // Validate that the pixels per unit is at least 10.  Otherwise just
+		// use 10.
+		if (_pixelsPerUnit < 10) {
+            // DEBUG
+			System.out.println("Pixels per unit too small. Using minimum of 10.");
+			pixelsPerUnit = 10;
+		}
+		else {
+			pixelsPerUnit = _pixelsPerUnit;
+		}
         
 		setPreferredSize(new Dimension(getPixelSize(width), getPixelSize(height)));
 	}
