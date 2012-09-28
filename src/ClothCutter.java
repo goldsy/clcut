@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * Class to initiate the cloth cutting optimization process.
  * 
- * @author Jeff
+ * @author Jeff Goldsworthy
  *
  */
 public class ClothCutter {
