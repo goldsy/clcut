@@ -1,5 +1,4 @@
-import java.util.ArrayList ;
-import java.util.Vector ;
+import java.util.ArrayList;
 
 
 /**
@@ -9,14 +8,16 @@ import java.util.Vector ;
  *
  */
 public class ClothCutter {
+    // This stores the list of patterns to be placed on the cloth.
 	private ArrayList<Pattern> patterns = null;
+    
+	// These members store the intial size of the cloth.
 	private int initClothWidth = 0;
 	private int initClothHeight = 0;
-    
-	//private int minPatternWidth = -1;
-	//private int minPatternHeight = -1;
-	
+
+    // This is the cloth rectangle representing the original cloth.
 	private ClothRectangle origCloth = null;
+
 	
 	/**
 	 * Class ctor.
@@ -28,8 +29,6 @@ public class ClothCutter {
 	 * @param _patterns
 	 * 		List of patterns to be placed on the cloth.
 	 */
-	//public ClothCutter(int _width, int _height, ArrayList<Pattern> _patterns) {
-	//	patterns = _patterns;
 	public ClothCutter(int _width, int _height) {
 		patterns = new ArrayList<Pattern>();
 		
@@ -73,30 +72,25 @@ public class ClothCutter {
      * @return
      * This method returns an array list of the garments.
      */
-	public Vector<Garment> garments() {
-		Vector<Garment> target = new Vector<Garment>();
+	public ArrayList<Garment> garments() {
+		ArrayList<Garment> target = new ArrayList<Garment>();
 		
         // Populate the garment list.
         // TODO: (goldsy) This shouldn't take long, but we could cache this list for the next call.
 		origCloth.getGarments(target);
-        
+
         return target;
 	}
     
 	
     /**
-     * Gets a list of garments.
+     * Gets the list of garments formatted as a string.
      * 
      * @return
-     * This method returns an array list of the garments.
+     * This method returns a string representation of the optimal pattern/
+     * garment layout.
      */
 	public String formattedGarments() {
-		//ArrayList<Garment> target = new ArrayList<Garment>();
-		
-        // Populate the garment list.
-        // TODO: (goldsy) This shouldn't take long, but we could cache this list for the next call.
-		//origCloth.getGarments(target);
-        
 		String returnVal = "[";
         
 		//for(Garment g : target) {
@@ -108,11 +102,13 @@ public class ClothCutter {
         
         return returnVal;
 	}
-    
-	
+
+
     /**
+     * Gets a list of the optimal cuts.
      * 
      * @return
+     * This method returns the list of drawable cuts.
      */
 	public ArrayList<DrawableCut> cuts() {
 		ArrayList<DrawableCut> target = new ArrayList<DrawableCut>();
@@ -155,24 +151,8 @@ public class ClothCutter {
 		}
         
         if (patternSignificant) {
+            // If this pattern has the potential to be placed then store it.
         	patterns.add(p);
-            
-            // If the minimum pattern width has not been initialized or if
-        	// the current pattern is smaller than the previous smallest
-        	// pattern in this orientation then store the new minimum.
-            /*
-        	if (minPatternWidth > p.getWidth() || minPatternWidth == -1) {
-        		minPatternWidth = p.getWidth();
-                // DEBUG
-                System.out.println("Min Pattern Width is: " + minPatternWidth);
-        	}
-            
-        	if (minPatternHeight > p.getHeight() || minPatternHeight == -1) {
-        		minPatternHeight = p.getHeight();
-                // DEBUG
-                System.out.println("Min Pattern Height is: " + minPatternHeight);
-        	}
-            */
         }
 	}
 }

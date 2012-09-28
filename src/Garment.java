@@ -1,7 +1,7 @@
 /**
  * This class stores information about the garment produced from a pattern.
  * 
- * @author Jeff
+ * @author Jeff Goldsworthy
  *
  */
 public class Garment {

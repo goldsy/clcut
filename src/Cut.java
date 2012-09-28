@@ -15,13 +15,20 @@ public class Cut {
 	
 	// Length of cut.
 	private int length = 0;
-	
+
+
 	/**
 	 * Class ctor.
 	 * 
 	 * @param _orientation
+     * The orientation of this cut.
+     * 
 	 * @param _location
+     * The location of the cut which is either along the width or height
+     * depending on whether this is a vertical of horizontal cut.
+     * 
 	 * @param _length
+     * The length of the cut.
 	 */
 	public Cut(int _orientation, int _location, int _length) {
 		orientation = _orientation;
@@ -67,7 +74,7 @@ public class Cut {
      * This method gets the location of the cut.
      * 
      * @return
-     * 	This method returns the integer location of the cut. The location is 
+     * This method returns the integer location of the cut. The location is 
      * relative to the orientation.
      */
 	public int getLocation() {

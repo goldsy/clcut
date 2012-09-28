@@ -1,14 +1,12 @@
 import java.util.ArrayList ;
 import java.util.HashMap;
-import java.util.Vector ;
-
 
 
 /**
  * This class stores the dimensions of a piece of cloth cut from the original
  * piece of cloth.
  * 
- * @author Jeff
+ * @author Jeff Goldsworthy
  *
  */
 public class ClothRectangle {
@@ -39,11 +37,16 @@ public class ClothRectangle {
 	
     
 	/**
-	 * This method will enforce Singleton for each rectangle type.
+	 * This method will enforce Singleton for each rectangle type.  If the
+	 * rectangle of this size already exists, then it will be returns
+	 * otherwise a new cloth rectangle is contstructed.
      * 
 	 * @param _width
+     * Width of the rectangle to create.
+     * 
 	 * @param _height
-	 * @param _patterns
+     * Height of the rectangle to create.
+     * 
 	 * @return
      * This method returns a reference to the specified ClothRectangle size.
 	 */
@@ -69,83 +72,85 @@ public class ClothRectangle {
 	 * Class ctor.
 	 * 
 	 * @param _width
-	 * 		Width of the rectangle.
+	 * Width of the rectangle.
+     * 
 	 * @param _height
-	 * 		Height of the rectangle.
+	 * Height of the rectangle.
 	 */
 	 private ClothRectangle(int _width, int _height) {
-        // DEBUG
-		//System.out.println("Constructing new ClothRectangle of size [" + _width + "," + _height + "]");
+		 // DEBUG
+		 //System.out.println("Constructing new ClothRectangle of size [" + _width + "," + _height + "]");
 
-		width = _width;
-		height = _height;
-		
-		// Just check that the min width and height have been inited, otherwise
-		// just use worst case of size 1.
-        if (minPatternWidth == 0) {
-        	minPatternWidth = 1;
-        }
-        
-        if (minPatternHeight == 0) {
-        	minPatternHeight = 1;
-        }
-		
-		// Determine the max zero cut profit.
-		calcMaxZeroCutProfit();
-		
-        // DEBUG
-		//System.out.println("Optimal zero cut value is: " + optimalValue);
-        
-        // If the optimal value at this rectangle is 0 then there is no reason
-		// to cut because nothing will fit.
-        if (optimalProfit > 0) {
-        	// Determine if the value is greater by cutting vertically at all
-        	// possible points.
-        	int cutProfit = 0;
+         // Store the dimensions of this rectangle.
+		 width = _width;
+		 height = _height;
 
-        	for (int cutAtX = minPatternWidth; cutAtX <= (width/2); ++cutAtX) {
-        		// DEBUG
-        		//System.out.println("Vert Cut [w=" + width + " h=" + height + "] Cutting at [" + x + "]");
+		 // Just check that the min width and height have been inited, otherwise
+		 // just use worst case of size 1.
+		 if (minPatternWidth == 0) {
+			 minPatternWidth = 1;
+		 }
 
-        		// Cut this rectangle vertically.
-        		ClothRectangle tempLeft = create(cutAtX, height);
-        		ClothRectangle tempRight = create((width - cutAtX), height);
+		 if (minPatternHeight == 0) {
+			 minPatternHeight = 1;
+		 }
 
-        		// If value from this cut is greater than current max value, then
-        		// save this cut as optimal.
-        		cutProfit = (tempLeft.getOptimalProfit() + tempRight.getOptimalProfit());
+		 // Determine the max zero cut profit.
+		 calcMaxZeroCutProfit();
 
-        		if (cutProfit > optimalProfit) {
-        			optimalProfit = cutProfit;
-        			leftTop = tempLeft;
-        			rightBottom = tempRight;
-        			optimalCut = new Cut(Cut.VERTICAL_CUT, cutAtX, height);
-        		}
-        	}
+		 // DEBUG
+		 //System.out.println("Optimal zero cut value is: " + optimalValue);
 
-        	// Determine if the value is greater by cutting horizontally at all
-        	// possible points.
-        	for (int cutAtY = minPatternHeight; cutAtY <= (height/2); ++cutAtY) {
-        		// DEBUG
-        		//System.out.println("Horiz Cut [w=" + width + " h=" + height + "] Cutting at [" + y + "]");
+		 // If the optimal value at this rectangle is 0 then there is no reason
+		 // to cut because nothing will fit.
+		 if (optimalProfit > 0) {
+			 // Determine if the value is greater by cutting vertically at all
+			 // possible points.
+			 int cutProfit = 0;
 
-        		// Cut this rectangle horizontally.
-        		ClothRectangle tempTop = create(width, cutAtY);
-        		ClothRectangle tempBottom = create(width, (height - cutAtY));
+			 for (int cutAtX = minPatternWidth; cutAtX <= (width/2); ++cutAtX) {
+				 // DEBUG
+				 //System.out.println("Vert Cut [w=" + width + " h=" + height + "] Cutting at [" + x + "]");
 
-        		// If value from this cut is greater than current max value, then
-        		// save this cut as optimal.
-        		cutProfit = (tempTop.getOptimalProfit() + tempBottom.getOptimalProfit());
+				 // Cut this rectangle vertically.
+				 ClothRectangle tempLeft = create(cutAtX, height);
+				 ClothRectangle tempRight = create((width - cutAtX), height);
 
-        		if (cutProfit > optimalProfit) {
-        			optimalProfit = cutProfit;
-        			leftTop = tempTop;
-        			rightBottom = tempBottom;
-        			optimalCut = new Cut(Cut.HORIZONTAL_CUT, cutAtY, width);
-        		}
-        	}
-        }
-	}
+				 // If value from this cut is greater than current max value, 
+				 // then save this cut as optimal.
+				 cutProfit = (tempLeft.getOptimalProfit() + tempRight.getOptimalProfit());
+
+				 if (cutProfit > optimalProfit) {
+					 optimalProfit = cutProfit;
+					 leftTop = tempLeft;
+					 rightBottom = tempRight;
+					 optimalCut = new Cut(Cut.VERTICAL_CUT, cutAtX, height);
+				 }
+			 }
+
+			 // Determine if the value is greater by cutting horizontally at all
+			 // possible points.
+			 for (int cutAtY = minPatternHeight; cutAtY <= (height/2); ++cutAtY) {
+				 // DEBUG
+				 //System.out.println("Horiz Cut [w=" + width + " h=" + height + "] Cutting at [" + y + "]");
+
+				 // Cut this rectangle horizontally.
+				 ClothRectangle tempTop = create(width, cutAtY);
+				 ClothRectangle tempBottom = create(width, (height - cutAtY));
+
+				 // If value from this cut is greater than current max value, then
+				 // save this cut as optimal.
+				 cutProfit = (tempTop.getOptimalProfit() + tempBottom.getOptimalProfit());
+
+				 if (cutProfit > optimalProfit) {
+					 optimalProfit = cutProfit;
+					 leftTop = tempTop;
+					 rightBottom = tempBottom;
+					 optimalCut = new Cut(Cut.HORIZONTAL_CUT, cutAtY, width);
+				 }
+			 }
+		 }
+	 }
 	
 	
 	/**
@@ -165,7 +170,7 @@ public class ClothRectangle {
      * rectangle.
 	 * 
 	 * @param target
-	 * 		The target list to stuff the cuts into.
+	 * The target list to stuff the cuts into.
 	 */
 	public void getCuts(ArrayList<DrawableCut> target) {
 		getCuts(target, 0, 0);
@@ -207,18 +212,26 @@ public class ClothRectangle {
      * 
      * @param target
      */
-	public void getGarments(Vector<Garment> target) {
+	public void getGarments(ArrayList<Garment> target) {
 		getGarments(target, 0, 0);
 	}
     
 	
     /**
+     * Returns list of garments (a pattern with a location on the cloth).
      * 
      * @param target
+     * Target list where garments should be stored.
+     * 
      * @param absoluteXStart
+     * The x (width) value which should be used to determine the actual location
+     * on the cloth.
+     * 
      * @param absoluteYStart
+     * The y (width) value which should be used to determine the actual location
+     * on the cloth.
      */
-	public void getGarments(Vector<Garment> target, int absoluteXStart, int absoluteYStart) {
+	public void getGarments(ArrayList<Garment> target, int absoluteXStart, int absoluteYStart) {
         // If there is no more cuts, then this is where the garment goes.
 		if (optimalCut == null) {
 			target.add(new Garment(absoluteXStart, absoluteYStart, optimalPattern));
@@ -245,10 +258,12 @@ public class ClothRectangle {
     
     /**
      * This gets the unique key for this size of rectangle. It is determined
-     * by concatenating the width and height values as strings and then
-     * casting them into ints which will guarantee that the key will never
-     * duplicate for two different rectangle sizes.
+     * by concatenating the width and height values as strings comma separated
+     * which will guarantee that the key will never duplicate for two different 
+     * rectangle sizes.
+     * 
      * @return
+     * This method returns a string which is the key for this rectangle.
      */
 	public String getKey() {
 		return getKey(width, height);
@@ -261,14 +276,15 @@ public class ClothRectangle {
      * 
      * @param _width
      * Width of the rectangle to look up.
+     * 
      * @param _height
      * Height of the rectangle to look up.
+     * 
      * @return
-     * This method returns an int which represents a unique key for the 
+     * This method returns a string which represents a unique key for the 
      * specified rectangle size.
      */
 	public static String getKey(int _width, int _height) {
-		//return Integer.parseInt(new Integer(_width).toString()+ "," + new Integer(_height).toString());
 		return (_width + "," + _height);
 	}
 	
@@ -276,8 +292,6 @@ public class ClothRectangle {
 	/**
 	 * Determines what pattern fits on the rectangle and is worth the most.
 	 * 
-	 * @return
-	 * 		This method returns the
 	 */
 	private void calcMaxZeroCutProfit() {
 		for (Pattern p : patterns) {

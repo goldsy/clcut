@@ -1,7 +1,7 @@
 /**
  * This class represents a pattern which is to be placed on the cloth.
  * 
- * @author Jeff
+ * @author Jeff Goldsworthy
  *
  */
 public class Pattern {

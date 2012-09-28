@@ -1,10 +1,11 @@
 /**
  * This class stores drawing information for a cut.
  * 
- * @author Jeff
+ * @author Jeff Goldsworthy
  *
  */
 public class DrawableCut {
+    // Start and end coordinates for this cut.
     private int startX = 0;
     private int startY = 0;
     private int endX = 0;
